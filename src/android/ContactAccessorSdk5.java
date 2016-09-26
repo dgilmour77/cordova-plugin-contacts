@@ -887,12 +887,7 @@ public class ContactAccessorSdk5 extends ContactAccessor {
             email.put("pref", false); // Android does not store pref attribute
             email.put("value", cursor.getString(cursor.getColumnIndex(CommonDataKinds.Email.DATA)));
             email.put("type", getContactType(cursor.getInt(cursor.getColumnIndex(CommonDataKinds.Email.TYPE))));
-
-
-/* Patch by dg773@gilmour.net to catch a parseInt exepction that seems to happen with certain bad contact data */
-/*        } catch (JSONException e) { */
-        } catch (Exception e) { 
-
+        } catch (JSONException e) {
             LOG.e(LOG_TAG, e.getMessage(), e);
         }
         return email;
@@ -910,7 +905,11 @@ public class ContactAccessorSdk5 extends ContactAccessor {
             im.put("pref", false); // Android does not store pref attribute
             im.put("value", cursor.getString(cursor.getColumnIndex(CommonDataKinds.Im.DATA)));
             im.put("type", getImType(Integer.parseInt(cursor.getString(cursor.getColumnIndex(CommonDataKinds.Im.PROTOCOL)))));
-        } catch (JSONException e) {
+
+/* Patch by DG (dg773@gilmour.net) for Pod to catch a parseInt exepction that seems to happen with certain bad contact data */
+/*        } catch (JSONException e) { */
+        } catch (Exception e) { 
+
             LOG.e(LOG_TAG, e.getMessage(), e);
         }
         return im;
