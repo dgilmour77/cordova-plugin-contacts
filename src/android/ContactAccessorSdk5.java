@@ -887,7 +887,12 @@ public class ContactAccessorSdk5 extends ContactAccessor {
             email.put("pref", false); // Android does not store pref attribute
             email.put("value", cursor.getString(cursor.getColumnIndex(CommonDataKinds.Email.DATA)));
             email.put("type", getContactType(cursor.getInt(cursor.getColumnIndex(CommonDataKinds.Email.TYPE))));
-        } catch (JSONException e) {
+
+
+/* Patch by dg773@gilmour.net to catch a parseInt exepction that seems to happen with certain bad contact data */
+/*        } catch (JSONException e) { */
+        } catch (Exception e) { 
+
             LOG.e(LOG_TAG, e.getMessage(), e);
         }
         return email;
